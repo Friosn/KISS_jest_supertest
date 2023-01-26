@@ -1,0 +1,35 @@
+{
+  "name": "kiss_jest_supertest",
+  "version": "1.0.0",
+  "description": "Keep It Simple | Stupid -->  ⚗️ Testing in NodeJS with Jest &amp; Supertest 🧪",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest",
+    "dev": "nodemon index.js",
+    "start": "node index.js"
+
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Friosn/KISS_jest_supertest.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Friosn/KISS_jest_supertest/issues"
+  },
+  "homepage": "https://github.com/Friosn/KISS_jest_supertest#readme",
+  "dependencies": {
+    "express": "^4.18.2",
+    "mongoose": "^6.9.0"
+  },
+  "devDependencies": {
+    "eslint": "^8.32.0",
+    "eslint-config-prettier": "^8.6.0",
+    "jest": "^29.4.1",
+    "nodemon": "^2.0.20",
+    "prettier": "^2.8.3",
+    "supertest": "^6.3.3"
+  }
+}
