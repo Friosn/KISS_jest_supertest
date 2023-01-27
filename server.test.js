@@ -22,7 +22,7 @@ const app = createServer();
 
 test("GET /api/posts", async () => {
   const post = await Model.create({
-    name: "First Post",
+    name: "First Postt",
     password: "blabla",
   });
 
@@ -32,11 +32,11 @@ test("GET /api/posts", async () => {
     .then((response) => {
       //checking the response type and length ⬇️
       expect(Array.isArray(response.body)).toBeTruthy();
-      expect(response.body.length).toEqual(9);
-
+      expect(response.body.length).toEqual(1);
+      console.log(response);
       //checking the response data ⬇️
-      expect(response.body[9]._id).toBe(post.id);
-      expect(response.body[9].name).toBe(post.name);
-      expect(response.body[9].password).toBe(post.password);
+      expect(response.body[0]._id).toBe(post.id);
+      expect(response.body[0].name).toBe(post.name);
+      expect(response.body[0].password).toBe(post.password);
     });
 });
