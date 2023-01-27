@@ -1,25 +1,27 @@
 const Model = require("../models/post.model");
 
-const getAll = async (req, res, next) => {
+const getAll = async (req, res) => {
   try {
     const models = await Model.find();
-    res.status(201).json(models);
+    res.send(models);
   } catch (error) {
-    return next(404);
+    res.status(404);
+    res.send("Error getAll");
   }
 };
 
-const getOne = async (req, res, next) => {
+const getOne = async (req, res) => {
   try {
     const { id } = req.params;
     const model = await Model.findById(id);
     res.status(201).json(model);
   } catch (error) {
-    return next(404);
+    res.status(404);
+    res.send("Error getOne");
   }
 };
 
-const postOne = async (req, res, next) => {
+const postOne = async (req, res) => {
   try {
     const model = new Model({
       name: req.body.name,
@@ -28,11 +30,12 @@ const postOne = async (req, res, next) => {
     const modelToDB = await model.save();
     res.status(201).json(modelToDB);
   } catch (error) {
-    return next(404);
+    res.status(404);
+    res.send("Error postOne");
   }
 };
 
-const patchOne = async (req, res, next) => {
+const patchOne = async (req, res) => {
   try {
     const { id } = req.params;
     const model = new Model(req.body);
@@ -40,17 +43,19 @@ const patchOne = async (req, res, next) => {
     const updateModel = await Model.findByIdAndUpdate(id);
     res.status(201).json(updateModel);
   } catch (error) {
-    return next(404);
+    res.status(404);
+    res.send("Error patchOne");
   }
 };
 
-const deleteOne = async (req, res, next) => {
+const deleteOne = async (req, res) => {
   try {
     const { id } = req.params;
     const model = await Model.findByIdAndDelete(id);
     res.status(201).json(model);
   } catch (error) {
-    return next(404);
+    res.status(404);
+    res.send("Error deleteOne");
   }
 };
 

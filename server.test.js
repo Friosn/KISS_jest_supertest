@@ -5,7 +5,7 @@ const createServer = require("./server");
 
 beforeEach((done) => {
   mongoose.connect(
-    "mongodb+srv://root:root@cluster0.vskhknf.mongodb.net/testing?retryWrites=true&w=majority",
+    "mongodb+srv://root:root@cluster0.vskhknf.mongodb.net/test?retryWrites=true&w=majority",
     { useNewUrlParser: true, useUnifiedTopology: true },
     () => done()
   );
@@ -32,11 +32,11 @@ test("GET /api/posts", async () => {
     .then((response) => {
       //checking the response type and length ⬇️
       expect(Array.isArray(response.body)).toBeTruthy();
-      expect(response.body.length).toEqual(1);
+      expect(response.body.length).toEqual(9);
 
       //checking the response data ⬇️
-      expect(response.body[0]._id).toBe(post.id);
-      expect(response.body[0].name).toBe(post.name);
-      expect(response.body[0].password).toBe(post.password);
+      expect(response.body[9]._id).toBe(post.id);
+      expect(response.body[9].name).toBe(post.name);
+      expect(response.body[9].password).toBe(post.password);
     });
 });
