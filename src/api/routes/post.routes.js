@@ -1,5 +1,5 @@
 const express = require("express");
-const Router = express.Router();
+const router = express.Router();
 
 const {
   getAll,
@@ -9,10 +9,10 @@ const {
   deleteOne,
 } = require("../controller/post.controller");
 
-Router.get("/posts", getAll);
-Router.get("/posts/:id", getOne);
-Router.post("/posts", postOne);
-Router.patch("/posts/:id", patchOne);
-Router.delete("/posts/:id", deleteOne);
+router.get("/posts", getAll);
+router.get("/posts/:id", getOne);
+router.post("/posts", postOne);
+router.patch("/posts/:id", patchOne);
+router.delete("/posts/:id", deleteOne);
 
-module.exports = Router;
+module.exports = router;
