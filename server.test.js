@@ -12,7 +12,8 @@ beforeEach((done) => {
 });
 
 afterEach((done) => {
-  mongoose.connection.db.dropDatabase(() => {
+  mongoose.connection.db.dropCollection("posts", (err, result) => {
+    if (err) console.log(err);
     mongoose.connection.close(() => done());
   });
 });
@@ -36,7 +37,11 @@ test("GET /api/posts", async () => {
       console.log(response);
       //checking the response data ⬇️
       expect(response.body[0]._id).toBe(post.id);
+
       expect(response.body[0].name).toBe(post.name);
       expect(response.body[0].password).toBe(post.password);
+      console.log("🚀 ~ file: server.test.js:43 ~ .then ~ expect", expect);
+      console.log("🚀 ~ file: server.test.js:43 ~ .then ~ expect", expect);
+      console.log("🚀 ~ file: server.test.js:43 ~ .then ~ expect", expect);
     });
 });
