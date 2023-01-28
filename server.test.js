@@ -2,6 +2,7 @@ const supertest = require("supertest");
 const Model = require("./src/api/models/post.model");
 const mongoose = require("mongoose");
 const createServer = require("./server");
+const { response } = require("express");
 
 beforeEach((done) => {
   mongoose.connect(
@@ -26,7 +27,7 @@ test("GET /api/posts", async () => {
     name: "First Postt",
     password: "blabla",
   });
-
+  console.log(post);
   await supertest(app)
     .get("/api/posts")
     .expect(200)
@@ -34,14 +35,27 @@ test("GET /api/posts", async () => {
       //checking the response type and length ⬇️
       expect(Array.isArray(response.body)).toBeTruthy();
       expect(response.body.length).toEqual(1);
-      console.log(response);
       //checking the response data ⬇️
       expect(response.body[0]._id).toBe(post.id);
 
       expect(response.body[0].name).toBe(post.name);
       expect(response.body[0].password).toBe(post.password);
-      console.log("🚀 ~ file: server.test.js:43 ~ .then ~ expect", expect);
-      console.log("🚀 ~ file: server.test.js:43 ~ .then ~ expect", expect);
-      console.log("🚀 ~ file: server.test.js:43 ~ .then ~ expect", expect);
+    });
+});
+
+test("GET api/posts/:id", async () => {
+  const post = await Model.create({
+    name: "Second Postt",
+    password: "blabla",
+  });
+  console.log(post);
+  await supertest(app)
+    .get(`/api/posts/${post.id}`)
+    .expect(201)
+    .then((response) => {
+      console.log(response);
+      expect(response.body._id).toBe(post.id);
+      expect(response.body.name).toBe(post.name);
+      expect(response.body.password).toBe(post.password);
     });
 });
