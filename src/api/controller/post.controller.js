@@ -14,7 +14,7 @@ const getOne = async (req, res) => {
   try {
     const { id } = req.params;
     const model = await Model.findById(id);
-    res.status(201).json(model);
+    res.status(200).json(model);
   } catch (error) {
     res.status(404);
     res.send("Error getOne");
