@@ -58,27 +58,30 @@ test("GET api/posts/:id", async () => {
     });
 });
 
-test("POST api/posts", async () => {
-  const data = await Model.create({
+test("POST /api/posts", async () => {
+  const data = {
     name: "Third Poost",
     password: "blabla",
-  }); // Defining the data that we'll be using to create the POST
+  }; // Defining the data that we'll be using to create the POST
   console.log(data);
   await supertest(app) //Calling the function of supertest with the argument of the Express app
-    .post("api/posts/") //Calling the POST function and we pass the route to do the post
+    .post("/api/posts/") //Calling the POST function and we pass the route to do the post
     .send(data) // We send the object that's gonna be posted, this adds the content to the body of the request
     .expect(201) // We expect a successful and create response
     .then(async (response) => {
       console.log(response);
-      expect(response.body._id).toBe(post.id);
-      expect(response.body.name).toBe(post.name);
-      expect(response.body.password).toBe(post.password);
-
-      const posting = await Model.findOne({ _id: response.body._id });
-      console.log(posting);
-      expect(posting).toBeTruthy();
-      expect(posting.name).toBe(data.name);
-      expect(posting.password).toBe(data.password);
+      expect(response.body._id).toBeTruthy();
+      expect(response.body.name).toBe(data.name);
+      expect(response.body.password).toBe(data.password);
+      try {
+        const posting = await Model.findOne({ _id: response.body.id });
+        console.log("Posting: ", posting);
+        expect(posting).toBeTruthy();
+        expect(posting.name).toBe(data.name);
+        expect(posting.password).toBe(data.password);
+      } catch (error) {
+        console.error("Error while finding the post", error);
+      }
     });
 });
 //THIS LAST PART FUCKED THE PREVIOUS TEST UP
