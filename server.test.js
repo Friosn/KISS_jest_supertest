@@ -47,7 +47,7 @@ test("GET api/posts/:id", async () => {
     name: "Second Postt",
     password: "blabla",
   });
-  console.log(post);
+
   await supertest(app)
     .get(`/api/posts/${post.id}`)
     .expect(200)
@@ -58,22 +58,27 @@ test("GET api/posts/:id", async () => {
     });
 });
 
-/* test("POST api/posts", async () => {
-  const post = Model.create({
+test("POST api/posts", async () => {
+  const data = await Model.create({
     name: "Third Poost",
     password: "blabla",
-  });
-  await supertest;
+  }); // Defining the data that we'll be using to create the POST
+  console.log(data);
+  await supertest(app) //Calling the function of supertest with the argument of the Express app
+    .post("api/posts/") //Calling the POST function and we pass the route to do the post
+    .send(data) // We send the object that's gonna be posted, this adds the content to the body of the request
+    .expect(201) // We expect a successful and create response
+    .then(async (response) => {
+      console.log(response);
+      expect(response.body._id).toBe(post.id);
+      expect(response.body.name).toBe(post.name);
+      expect(response.body.password).toBe(post.password);
+
+      const posting = await Model.findOne({ _id: response.body._id });
+      console.log(posting);
+      expect(posting).toBeTruthy();
+      expect(posting.name).toBe(data.name);
+      expect(posting.password).toBe(data.password);
+    });
 });
-console.log(post);
-await supertest(app)
-  .post("api/posts")
-  .expect(201)
-  .then((response) => {
-    console.log(response);
-    expect(response.body._id).toBe(post.id);
-    expect(response.body.name).toBe(post.name);
-    expect(response.body.password).toBe(post.password);
-  });
-}); */
 //THIS LAST PART FUCKED THE PREVIOUS TEST UP
