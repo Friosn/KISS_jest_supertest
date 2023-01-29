@@ -74,7 +74,7 @@ test("POST /api/posts", async () => {
       expect(response.body.name).toBe(data.name);
       expect(response.body.password).toBe(data.password);
       try {
-        const posting = await Model.findOne({ _id: response.body.id });
+        const posting = await Model.findOne({ name: data.name });
         console.log("Posting: ", posting);
         expect(posting).toBeTruthy();
         expect(posting.name).toBe(data.name);
