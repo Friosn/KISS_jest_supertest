@@ -65,7 +65,6 @@ test("POST /api/posts", async () => {
     name: "Third Poost",
     password: "blabla",
   }; // Defining the data that we'll be using to create the POST
-  console.log(data);
   await supertest(app) // Calling the function of supertest with the argument of the Express app
     .post("/api/posts/") // Calling the POST function and we pass the route to do the post
     .send(data) // We send the object that's gonna be posted, this adds the content to the body of the request
@@ -122,5 +121,18 @@ test("PATCH /api/posts/:id", async () => {
       expect(newPost).toBeTruthy();
       expect(newPost.name).toBe(update.name);
       expect(newPost.password).toBe(update.password);
+    });
+});
+
+test("DELETE /api/posts/:id", async () => {
+  const post = await Model.create({
+    name: "Left Over",
+    password: "blibli",
+  });
+  await supertest(app)
+    .delete(`/api/posts/${post.id}`)
+    .expect(204)
+    .then(async () => {
+      expect(await Model.findOne({ _id: post.id })).toBeFalsy();
     });
 });

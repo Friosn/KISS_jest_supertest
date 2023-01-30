@@ -55,7 +55,9 @@ const deleteOne = async (req, res) => {
   try {
     const { id } = req.params;
     const model = await Model.findByIdAndDelete(id);
-    res.status(201).json(model);
+    res.status(204).json({
+      deleted: model,
+    });
   } catch (error) {
     res.status(404);
     res.send("Error deleteOne");
