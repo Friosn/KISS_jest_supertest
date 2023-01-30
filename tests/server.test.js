@@ -5,9 +5,11 @@ const createServer = require("../server");
 const { response } = require("express");
 const { post } = require("../src/api/routes/post.routes");
 
+const TEST_MONGO_URI = process.env.TEST_MONGO_URI;
+
 beforeEach((done) => {
   mongoose.connect(
-    "mongodb+srv://root:root@cluster0.vskhknf.mongodb.net/test?retryWrites=true&w=majority",
+    TEST_MONGO_URI, // If this does not work, try by inserting directly the test URI here
     { useNewUrlParser: true, useUnifiedTopology: true },
     () => done()
   );
@@ -20,7 +22,7 @@ afterEach((done) => {
   });
 });
 // As I am using a testing MongoDB, I would not need to drop all the
-// database, or dataCollection in this cas after each test.
+// database, or dataCollection in this case after each test.
 
 const app = createServer();
 
@@ -28,10 +30,10 @@ test("GET /api/posts", async () => {
   const post = await Model.create({
     name: "First Postt",
     password: "blabla",
-  });
-  await supertest(app)
-    .get("/api/posts")
-    .expect(200)
+  }); // We create a post to test the GET
+  await supertest(app) //Calling the server with supertest
+    .get("/api/posts") // Direction where to getALL
+    .expect(200) // Successful response expected
     .then((response) => {
       //checking the response type and length ⬇️
       expect(Array.isArray(response.body)).toBeTruthy();
@@ -51,7 +53,7 @@ test("GET api/posts/:id", async () => {
   });
 
   await supertest(app)
-    .get(`/api/posts/${post.id}`)
+    .get(`/api/posts/${post.id}`) // Now we use the id to get one specific object, getOne
     .expect(200)
     .then((response) => {
       /*  console.log("Get by id: ", response); */
