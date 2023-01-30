@@ -1,9 +1,9 @@
 const supertest = require("supertest");
-const Model = require("./src/api/models/post.model");
+const Model = require("../src/api/models/post.model");
 const mongoose = require("mongoose");
-const createServer = require("./server");
+const createServer = require("../server");
 const { response } = require("express");
-const { post } = require("./src/api/routes/post.routes");
+const { post } = require("../src/api/routes/post.routes");
 
 beforeEach((done) => {
   mongoose.connect(
