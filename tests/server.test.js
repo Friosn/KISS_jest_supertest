@@ -19,7 +19,8 @@ afterEach((done) => {
     mongoose.connection.close(() => done());
   });
 });
-//As I am using a testing MongoDB, I would not need to drop all the database after each test.
+// As I am using a testing MongoDB, I would not need to drop all the
+// database, or dataCollection in this cas after each test.
 
 const app = createServer();
 
@@ -102,7 +103,7 @@ test("PATCH /api/posts/:id", async () => {
     .expect(200) //Expected response for a PUT/PATCH/GET method
     .then(async (response) => {
       //We check the response
-      /*       console.log("Patch body response: ", response.body.new); */
+      /* console.log("Patch body response: ", response.body.new); */
       // We check on .new because in the controller we send the updated version
       // and the old version, so we have to check the update
       expect(response.body.new._id).toBe(post.id);
@@ -118,9 +119,9 @@ test("PATCH /api/posts/:id", async () => {
       }
 
       /* console.log("newPost: ", newPost); */
-      expect(newPost).toBeTruthy();
-      expect(newPost.name).toBe(update.name);
-      expect(newPost.password).toBe(update.password);
+      expect(newPost).toBeTruthy(); //we check that there actually exist newPost
+      expect(newPost.name).toBe(update.name); // And that newPost.name is equal to the update.name
+      expect(newPost.password).toBe(update.password); // And the same for the password, that will mean that the data was patched
     });
 });
 
@@ -130,9 +131,9 @@ test("DELETE /api/posts/:id", async () => {
     password: "blibli",
   });
   await supertest(app)
-    .delete(`/api/posts/${post.id}`)
-    .expect(204)
+    .delete(`/api/posts/${post.id}`) // We delete the post.id with the following route
+    .expect(204) // Expected response when the content has been deleted and there is no more content to show
     .then(async () => {
-      expect(await Model.findOne({ _id: post.id })).toBeFalsy();
+      expect(await Model.findOne({ _id: post.id })).toBeFalsy(); //We try to find the element by the id, since it was deleted, this should be false
     });
 });
