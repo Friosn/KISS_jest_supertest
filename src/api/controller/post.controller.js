@@ -38,10 +38,13 @@ const postOne = async (req, res) => {
 const patchOne = async (req, res) => {
   try {
     const { id } = req.params;
-    const model = new Model(req.body);
-    model._id = id;
-    const updateModel = await Model.findByIdAndUpdate(id);
-    res.status(201).json(updateModel);
+    const modelUpdate = new Model(req.body);
+    modelUpdate._id = id;
+    const modelToUpdate = await Model.findByIdAndUpdate(id, modelUpdate);
+    res.status(200).json({
+      new: modelUpdate,
+      old: modelToUpdate,
+    });
   } catch (error) {
     res.status(404);
     res.send("Error patchOne");

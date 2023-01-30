@@ -3,6 +3,7 @@ const Model = require("./src/api/models/post.model");
 const mongoose = require("mongoose");
 const createServer = require("./server");
 const { response } = require("express");
+const { post } = require("./src/api/routes/post.routes");
 
 beforeEach((done) => {
   mongoose.connect(
@@ -52,6 +53,7 @@ test("GET api/posts/:id", async () => {
     .get(`/api/posts/${post.id}`)
     .expect(200)
     .then((response) => {
+      /*  console.log("Get by id: ", response); */
       expect(response.body._id).toBe(post.id);
       expect(response.body.name).toBe(post.name);
       expect(response.body.password).toBe(post.password);
@@ -64,18 +66,17 @@ test("POST /api/posts", async () => {
     password: "blabla",
   }; // Defining the data that we'll be using to create the POST
   console.log(data);
-  await supertest(app) //Calling the function of supertest with the argument of the Express app
-    .post("/api/posts/") //Calling the POST function and we pass the route to do the post
+  await supertest(app) // Calling the function of supertest with the argument of the Express app
+    .post("/api/posts/") // Calling the POST function and we pass the route to do the post
     .send(data) // We send the object that's gonna be posted, this adds the content to the body of the request
     .expect(201) // We expect a successful and create response
     .then(async (response) => {
-      console.log(response);
       expect(response.body._id).toBeTruthy();
       expect(response.body.name).toBe(data.name);
       expect(response.body.password).toBe(data.password);
       try {
         const posting = await Model.findOne({ name: data.name });
-        console.log("Posting: ", posting);
+        /*  console.log("Posting: ", posting); */
         expect(posting).toBeTruthy();
         expect(posting.name).toBe(data.name);
         expect(posting.password).toBe(data.password);
@@ -84,4 +85,42 @@ test("POST /api/posts", async () => {
       }
     });
 });
-//THIS LAST PART FUCKED THE PREVIOUS TEST UP
+
+//THIS SHOULD BE REREVIEWED
+
+test("PATCH /api/posts/:id", async () => {
+  const post = await Model.create({
+    name: "Fifth post",
+    password: "bleble",
+  }); // We create a post that will be updated
+  const update = {
+    name: "It is the FORTH",
+    password: "bloblo",
+  }; // The post will be updated with this data
+  await supertest(app)
+    .patch(`/api/posts/${post.id}`) // We call the patch() for this path
+    .send(update) //We send the update
+    .expect(200) //Expected response for a PUT/PATCH/GET method
+    .then(async (response) => {
+      //We check the response
+      /*       console.log("Patch body response: ", response.body.new); */
+      // We check on .new because in the controller we send the updated version
+      // and the old version, so we have to check the update
+      expect(response.body.new._id).toBe(post.id);
+      expect(response.body.new.name).toBe(update.name);
+      expect(response.body.new.password).toBe(update.password);
+
+      //Now we check the database's data
+      let newPost;
+      try {
+        newPost = await Model.findOne({ _id: response.body.new._id });
+      } catch (error) {
+        console.error("Impossible to get newPost: ", error);
+      }
+
+      /* console.log("newPost: ", newPost); */
+      expect(newPost).toBeTruthy();
+      expect(newPost.name).toBe(update.name);
+      expect(newPost.password).toBe(update.password);
+    });
+});
