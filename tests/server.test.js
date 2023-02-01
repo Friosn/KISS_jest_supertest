@@ -9,7 +9,7 @@ const TEST_MONGO_URI = process.env.TEST_MONGO_URI;
 
 beforeEach((done) => {
   mongoose.connect(
-    TEST_MONGO_URI, // If this does not work, try by inserting directly the test URI here
+    TEST_MONGO_URI, // If this does not work, try by inserting directly the test URI here (It did not worked for me, I had the URI directly there, that will do it)
     { useNewUrlParser: true, useUnifiedTopology: true },
     () => done()
   );
