@@ -12,6 +12,8 @@ The tests are all in the same file in the **tests** folder, they habe been **exp
 
 First you will need to create a **.env** file to set your environmental variables, I've let the template in the **.env.dev** file. For that you will need to know the basics about and MongoDB Atlas. We'll just use the testing mongoDB, simulating a real situation where you also would have a production DB.
 
+**IMPORTANT:**he diferent MONGO URIs are hidden, if the variables do not work, try by changing them for the respective URIs, since I've been working with them directly in this app.
+
 I recommend you add console.logs around or uncomment the ones there are already there to get an idea of how does it work, and then run the tests writing the following command in console.
 
 `npm test`
