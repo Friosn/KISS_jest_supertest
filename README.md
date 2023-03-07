@@ -1,6 +1,6 @@
 # KISS_jest_supertest
 
-## Keep It Simple | Stupid --> 🧪 Testing in NodeJS with Jest + Supertest ⚗️
+## Keep It Simple (DEPRECATED u.u) | Stupid --> 🧪 Testing in NodeJS with Jest + Supertest ⚗️
 
 This is a simple example to take the **firsts steps** into the **testing in NodeJS**
 
